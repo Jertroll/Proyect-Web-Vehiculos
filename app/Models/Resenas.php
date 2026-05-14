@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Favorito
+ * Class Resena
  *
- * @property $id_favorito
+ * @property $id_resena
  * @property $id_usuario
  * @property $id_vehiculo
- * @property $fecha_agregado
- * @property $estado
- * @property $nota
+ * @property $calificacion
+ * @property $comentario
+ * @property $fecha
  *
  * @property Usuario $usuario
  * @property Vehiculo $vehiculo
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 
-class Favorito extends Model
+class Resena extends Model
 {
 
     public $timestamps = false;
@@ -35,9 +35,9 @@ class Favorito extends Model
     protected $fillable = [
         'id_usuario',
         'id_vehiculo',
-        'fecha_agregado',
-        'estado',
-        'nota'
+        'calificacion',
+        'comentario',
+        'fecha'
     ];
 
     public function usuario()
