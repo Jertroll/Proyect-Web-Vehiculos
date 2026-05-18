@@ -24,12 +24,7 @@ class Compra extends Model
 {
     public $timestamps = false;
 
-    protected $perPage = 20;
-    /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
+    protected $primaryKey = 'id_compra';
 
     protected $fillable = [
         'id_usuario',

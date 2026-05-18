@@ -24,7 +24,7 @@ class Pago extends Model
  
     public $timestamps = false;
 
-    protected $perPage = 20;
+    protected $primaryKey = 'id_pago';
     /**
     * The attributes that are mass assignable.
     *
@@ -41,6 +41,6 @@ class Pago extends Model
 
     public function compra()
     {
-        return $this->belongsTo(\App\Models\Compras::class, 'id_compra', 'id_compra');
+        return $this->belongsTo(\App\Models\Compra::class, 'id_compra', 'id_compra');
     }
 }

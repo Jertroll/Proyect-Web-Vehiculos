@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Favorito
+ * Class Favoritos
  *
  * @property $id_favorito
  * @property $id_usuario
@@ -20,12 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 
-class Favorito extends Model
+class Favoritos extends Model
 {
 
     public $timestamps = false;
-
-    protected $perPage = 20;
+    protected $primaryKey = 'id_favorito';
     /**
     * The attributes that are mass assignable.
     *
