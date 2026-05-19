@@ -78,7 +78,7 @@ class PagoController extends Controller
         $request->validate([
             'id_compra'   => ['required', 'exists:compras,id_compra'],
             'metodo_pago' => ['required', 'string', 'max:50'],
-            'monto'       => ['required', 'numeric', 'min:0'],
+            'monto'       => ['required', 'numeric', 'min:0.01'],
         ]);
 
         $compra = Compra::findOrFail($request->id_compra);
@@ -132,7 +132,7 @@ class PagoController extends Controller
 
     // Actualizar pago
     public function update(Request $request, string $id_pago)
-    {
+{
     $pago = Pago::findOrFail($id_pago);
 
     // Solo un admin puede actualizar pagos
@@ -147,8 +147,7 @@ class PagoController extends Controller
         'monto'       => [
             'required',
             'numeric',
-            'min:0.01',
-            'max:' . $pago->compra->precio_final,
+            'min:0.01'
         ],
         'fecha_pago'  => ['required', 'date'],
         'estado'      => ['required', 'in:pendiente,completado,rechazado'],
@@ -162,12 +161,13 @@ class PagoController extends Controller
             'estado'      => $request->estado,
         ]);
 
-        // Si el pago se completa, marcar la compra como completada
+        // Si el pago se completa, marcar la compra como pagada y el vehículo como vendido
         if ($request->estado === 'completado') {
             $pago->compra->update(['estado' => 'pagado']);
+            $pago->compra->vehiculo->update(['estado' => 'vendido']);
         }
 
-        // Si el pago se rechaza, marcar la compra como cancelada
+        // Si el pago se rechaza, marcar la compra como cancelada y liberar el vehículo
         if ($request->estado === 'rechazado') {
             $pago->compra->update(['estado' => 'cancelado']);
             $pago->compra->vehiculo->update(['estado' => 'disponible']);
@@ -181,7 +181,7 @@ class PagoController extends Controller
             ->with('error', 'Error al actualizar el pago. Intentá de nuevo.')
             ->withInput();
     }
-    }
+}
 
     // Eliminar pago
     public function destroy(string $id_pago)

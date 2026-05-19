@@ -76,49 +76,76 @@ class CompraController extends Controller
 
     // Guardar nueva compra
     public function store(Request $request)
-    {
+{
+    $request->validate([
+        'id_vehiculo' => ['required', 'exists:vehiculos,id_vehiculo'],
+    ]);
+
+    // Validación adicional si el usuario quiere pagar ahora
+    if ($request->boolean('pagar_ahora')) {
         $request->validate([
-            'id_vehiculo' => ['required', 'exists:vehiculos,id_vehiculo'],
+            'metodo_pago' => ['required', 'string', 'max:50'],
+            'monto'       => ['required', 'numeric', 'min:0.01'],
         ]);
-
-        $vehiculo = Vehiculo::findOrFail($request->id_vehiculo);
-
-        // Verificar que el vehículo esté disponible
-        if ($vehiculo->estado !== 'disponible') {
-            return redirect()->back()
-                ->with('error', 'El vehículo ya no está disponible.')
-                ->withInput();
-        }
-
-        // Un usuario no puede comprar su propio vehículo
-        if ($vehiculo->id_vendedor === Auth::user()->id_usuario) {
-            return redirect()->back()
-                ->with('error', 'No podés comprar tu propio vehículo.')
-                ->withInput();
-        }
-
-        try {
-            Compra::create([
-                'id_usuario'   => Auth::user()->id_usuario,
-                'id_vehiculo'  => $vehiculo->id_vehiculo,
-                'precio_final' => $vehiculo->precio,
-                'fecha_compra' => now(),
-                'estado'       => 'pendiente',
-            ]);
-
-            // Marcar el vehículo como vendido
-            $vehiculo->update(['estado' => 'vendido']);
-
-            return redirect()->route('compras.index')
-                ->with('success', 'Compra registrada correctamente.');
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Error al registrar la compra. Intentá de nuevo.')
-                ->withInput();
-        }
     }
 
+    $vehiculo = Vehiculo::findOrFail($request->id_vehiculo);
+
+    if ($vehiculo->estado !== 'disponible') {
+        return redirect()->back()
+            ->with('error', 'El vehículo ya no está disponible.')
+            ->withInput();
+    }
+
+    if ($vehiculo->id_vendedor === Auth::user()->id_usuario) {
+        return redirect()->back()
+            ->with('error', 'No podés comprar tu propio vehículo.')
+            ->withInput();
+    }
+
+    try {
+        $compra = Compra::create([
+            'id_usuario'   => Auth::user()->id_usuario,
+            'id_vehiculo'  => $vehiculo->id_vehiculo,
+            'precio_final' => $vehiculo->precio,
+            'fecha_compra' => now(),
+            'estado'       => 'pendiente',
+        ]);
+
+        // El vehículo NO se marca vendido aquí; solo cuando el pago se complete
+
+        if ($request->boolean('pagar_ahora')) {
+            $monto  = (float) $request->monto;
+            $precio = (float) $vehiculo->precio;
+
+            // El monto no puede exceder el precio del vehículo
+            $monto = min($monto, $precio);
+
+            $estadoPago = $monto >= $precio ? 'completado' : 'pendiente';
+
+            \App\Models\Pago::create([
+                'id_compra'   => $compra->id_compra,
+                'metodo_pago' => $request->metodo_pago,
+                'monto'       => $monto,
+                'fecha_pago'  => now(),
+                'estado'      => $estadoPago,
+            ]);
+
+            if ($estadoPago === 'completado') {
+                $compra->update(['estado' => 'pagado']);
+                $vehiculo->update(['estado' => 'vendido']);
+            }
+        }
+
+        return redirect()->route('compras.index')
+            ->with('success', 'Compra registrada correctamente.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'Error al registrar la compra. Intentá de nuevo.')
+            ->withInput();
+    }
+}
     // Formulario de edición
     public function edit(string $id_compra)
     {
@@ -174,35 +201,42 @@ class CompraController extends Controller
 
     // Eliminar compra
     public function destroy(string $id_compra)
-    {
-        $compra = Compra::findOrFail($id_compra);
+{
+    $compra = Compra::findOrFail($id_compra);
 
-        // Solo un admin puede eliminar compras
-        if (Auth::user()->tipo_usuario !== 'admin') {
+    // Un usuario puede eliminar su propia compra si está pendiente; admin puede eliminar cualquiera
+    if (Auth::user()->tipo_usuario !== 'admin') {
+        if ($compra->id_usuario !== Auth::user()->id_usuario) {
             return redirect()->route('compras.index')
                 ->with('error', 'No tenés permisos para eliminar esta compra.');
         }
 
-        // No permitir eliminar una compra pagada
-        if ($compra->estado === 'pagado') {
+        if ($compra->estado !== 'pendiente') {
             return redirect()->route('compras.index')
-                ->with('error', 'No se puede eliminar una compra que ya fue pagada.');
-        }
-
-        try {
-            // Si la compra no estaba pagada, liberar el vehículo
-            if ($compra->estado !== 'pagado') {
-                $compra->vehiculo->update(['estado' => 'disponible']);
-            }
-
-            $compra->delete();
-
-            return redirect()->route('compras.index')
-                ->with('success', 'Compra eliminada correctamente.');
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Error al eliminar la compra. Intentá de nuevo.');
+                ->with('error', 'Solo podés eliminar compras que estén pendientes.');
         }
     }
+
+    // No permitir eliminar una compra pagada (aplica también al admin)
+    if ($compra->estado === 'pagado') {
+        return redirect()->route('compras.index')
+            ->with('error', 'No se puede eliminar una compra que ya fue pagada.');
+    }
+
+    try {
+        // Si la compra no estaba pagada, liberar el vehículo
+        if ($compra->estado !== 'pagado') {
+            $compra->vehiculo->update(['estado' => 'disponible']);
+        }
+
+        $compra->delete();
+
+        return redirect()->route('compras.index')
+            ->with('success', 'Compra eliminada correctamente.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'Error al eliminar la compra. Intentá de nuevo.');
+    }
+}
 }

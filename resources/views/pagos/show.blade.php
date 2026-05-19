@@ -83,7 +83,6 @@
                                                value="{{ old('monto', $pago->monto) }}"
                                                class="form-control @error('monto') is-invalid @enderror"
                                                min="0.01"
-                                               max="{{ number_format($pago->compra->precio_final, 2, '.', '') }}"
                                                step="0.01" required>
                                         @error('monto')
                                             <span class="invalid-feedback">{{ $message }}</span>

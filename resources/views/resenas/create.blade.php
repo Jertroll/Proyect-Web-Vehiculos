@@ -23,25 +23,6 @@
 
                     <form method="POST" action="{{ route('resenas.store') }}">
                         @csrf
-
-                        <div class="mb-3">
-                            <label for="id_vehiculo" class="form-label">Vehículo</label>
-                            <select name="id_vehiculo" id="id_vehiculo"
-                                    class="form-select @error('id_vehiculo') is-invalid @enderror"
-                                    required>
-                                <option value="">Seleccioná un vehículo</option>
-                                @foreach($vehiculos as $vehiculo)
-                                    <option value="{{ $vehiculo->id_vehiculo }}"
-                                        {{ old('id_vehiculo', $vehiculoSeleccionado?->id_vehiculo) == $vehiculo->id_vehiculo ? 'selected' : '' }}>
-                                        {{ $vehiculo->marca }} {{ $vehiculo->modelo }} ({{ $vehiculo->anio }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('id_vehiculo')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-
                         <div class="mb-3">
                             <label class="form-label">Calificación</label>
                             <div class="d-flex gap-3">
