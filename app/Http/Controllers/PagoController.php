@@ -164,12 +164,12 @@ class PagoController extends Controller
 
         // Si el pago se completa, marcar la compra como completada
         if ($request->estado === 'completado') {
-            $pago->compra->update(['estado' => 'completada']);
+            $pago->compra->update(['estado' => 'pagado']);
         }
 
         // Si el pago se rechaza, marcar la compra como cancelada
         if ($request->estado === 'rechazado') {
-            $pago->compra->update(['estado' => 'cancelada']);
+            $pago->compra->update(['estado' => 'cancelado']);
             $pago->compra->vehiculo->update(['estado' => 'disponible']);
         }
 

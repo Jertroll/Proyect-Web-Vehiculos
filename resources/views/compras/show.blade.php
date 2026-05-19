@@ -42,11 +42,22 @@
 
                     {{-- Botones para compra pendiente --}}
                     @if($compra->estado === 'pendiente' && Auth::user()->id_usuario === $compra->id_usuario)
+                        @php
+                            $pagoPendiente = $compra->pagos->where('estado', 'pendiente')->first();
+                        @endphp
+
                         <div class="d-flex gap-2 mb-4">
-                            <a href="{{ route('pagos.create', ['id_compra' => $compra->id_compra]) }}"
-                               class="btn btn-success w-100">
-                                Pagar ahora
-                            </a>
+                            @if($pagoPendiente)
+                                <a href="{{ route('pagos.show', $pagoPendiente->id_pago) }}"
+                                   class="btn btn-warning w-100">
+                                    Continuar pago pendiente
+                                </a>
+                            @else
+                                <a href="{{ route('pagos.create', ['id_compra' => $compra->id_compra]) }}"
+                                   class="btn btn-success w-100">
+                                    Pagar ahora
+                                </a>
+                            @endif
 
                             <form method="POST"
                                   action="{{ route('compras.update', $compra->id_compra) }}"

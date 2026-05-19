@@ -48,13 +48,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="monto" class="form-label">Monto ($)</label>
-                            <input type="number" name="monto" id="monto"
-                                   value="{{ old('monto', $pago->monto) }}"
+                            <label for="monto_display" class="form-label">Monto ($)</label>
+                            <input type="text" id="monto_display"
                                    class="form-control @error('monto') is-invalid @enderror"
-                                   min="0" step="0.01" required>
+                                   placeholder="0.00"
+                                   value="{{ number_format(old('monto', $pago->monto), 2) }}"
+                                   autocomplete="off">
+                            <input type="hidden" name="monto" id="monto"
+                                   value="{{ old('monto', $pago->monto) }}">
                             @error('monto')
-                                <span class="invalid-feedback">{{ $message }}</span>
+                                <span class="invalid-feedback d-block">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -96,4 +99,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    const display = document.getElementById('monto_display');
+    const hidden  = document.getElementById('monto');
+
+    display.addEventListener('input', function () {
+        let raw = this.value.replace(/[^0-9.]/g, '');
+
+        const parts = raw.split('.');
+        if (parts.length > 2) raw = parts[0] + '.' + parts.slice(1).join('');
+
+        if (parts[1] !== undefined) {
+            raw = parts[0] + '.' + parts[1].slice(0, 2);
+        }
+
+        const intPart   = raw.split('.')[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        const decPart   = raw.includes('.') ? '.' + (raw.split('.')[1] ?? '') : '';
+        this.value      = intPart + decPart;
+
+        hidden.value = raw;
+    });
+</script>
 @endsection
