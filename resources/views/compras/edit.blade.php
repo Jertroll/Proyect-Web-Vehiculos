@@ -58,9 +58,9 @@
                             <select name="estado" id="estado"
                                     class="form-select @error('estado') is-invalid @enderror"
                                     required>
-                                <option value="pendiente"  {{ old('estado', $compra->estado) == 'pendiente'  ? 'selected' : '' }}>Pendiente</option>
-                                <option value="completada" {{ old('estado', $compra->estado) == 'completada' ? 'selected' : '' }}>Completada</option>
-                                <option value="cancelada"  {{ old('estado', $compra->estado) == 'cancelada'  ? 'selected' : '' }}>Cancelada</option>
+                                <option value="pendiente" {{ old('estado', $compra->estado) == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                <option value="pagado"    {{ old('estado', $compra->estado) == 'pagado'    ? 'selected' : '' }}>Pagado</option>
+                                <option value="cancelado" {{ old('estado', $compra->estado) == 'cancelado' ? 'selected' : '' }}>Cancelado</option>
                             </select>
                             @error('estado')
                                 <span class="invalid-feedback">{{ $message }}</span>

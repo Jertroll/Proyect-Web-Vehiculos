@@ -15,9 +15,9 @@
                     <div class="col-md-4">
                         <select name="estado" class="form-select">
                             <option value="">Todos los estados</option>
-                            <option value="pendiente"   {{ request('estado') == 'pendiente'   ? 'selected' : '' }}>Pendiente</option>
-                            <option value="completada"  {{ request('estado') == 'completada'  ? 'selected' : '' }}>Completada</option>
-                            <option value="cancelada"   {{ request('estado') == 'cancelada'   ? 'selected' : '' }}>Cancelada</option>
+                            <option value="pendiente"  {{ request('estado') == 'pendiente'  ? 'selected' : '' }}>Pendiente</option>
+                            <option value="pagado"     {{ request('estado') == 'pagado'     ? 'selected' : '' }}>Pagado</option>
+                            <option value="cancelado"  {{ request('estado') == 'cancelado'  ? 'selected' : '' }}>Cancelado</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -61,9 +61,9 @@
                             <td>
                                 @php
                                     $badge = match($compra->estado) {
-                                        'completada' => 'bg-success',
-                                        'cancelada'  => 'bg-danger',
-                                        default      => 'bg-warning text-dark',
+                                        'pagado'    => 'bg-success',
+                                        'cancelado' => 'bg-danger',
+                                        default     => 'bg-warning text-dark',
                                     };
                                 @endphp
                                 <span class="badge {{ $badge }}">{{ ucfirst($compra->estado) }}</span>
@@ -76,7 +76,7 @@
                                     <a href="{{ route('compras.edit', $compra->id_compra) }}"
                                        class="btn btn-sm btn-outline-secondary">Editar</a>
 
-                                    @if($compra->estado !== 'completada')
+                                    @if($compra->estado !== 'pagado')
                                         <form method="POST"
                                               action="{{ route('compras.destroy', $compra->id_compra) }}"
                                               class="d-inline"

@@ -32,21 +32,35 @@
                         <strong>Estado:</strong>
                         @php
                             $badge = match($compra->estado) {
-                                'completada' => 'bg-success',
-                                'cancelada'  => 'bg-danger',
-                                default      => 'bg-warning text-dark',
+                                'pagado'    => 'bg-success',
+                                'cancelado' => 'bg-danger',
+                                default     => 'bg-warning text-dark',
                             };
                         @endphp
                         <span class="badge {{ $badge }}">{{ ucfirst($compra->estado) }}</span>
                     </div>
 
-                    {{-- Botón de pagar --}}
+                    {{-- Botones para compra pendiente --}}
                     @if($compra->estado === 'pendiente' && Auth::user()->id_usuario === $compra->id_usuario)
-                        <div class="mb-4">
+                        <div class="d-flex gap-2 mb-4">
                             <a href="{{ route('pagos.create', ['id_compra' => $compra->id_compra]) }}"
                                class="btn btn-success w-100">
                                 Pagar ahora
                             </a>
+
+                            <form method="POST"
+                                  action="{{ route('compras.update', $compra->id_compra) }}"
+                                  class="w-100"
+                                  onsubmit="return confirm('¿Seguro que querés cancelar esta compra?')">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="precio_final" value="{{ $compra->precio_final }}">
+                                <input type="hidden" name="fecha_compra" value="{{ \Carbon\Carbon::parse($compra->fecha_compra)->format('Y-m-d') }}">
+                                <input type="hidden" name="estado" value="cancelado">
+                                <button type="submit" class="btn btn-outline-danger w-100">
+                                    Cancelar compra
+                                </button>
+                            </form>
                         </div>
                     @endif
 

@@ -147,7 +147,7 @@ class CompraController extends Controller
         $request->validate([
             'precio_final' => ['required', 'numeric', 'min:0'],
             'fecha_compra' => ['required', 'date'],
-            'estado'       => ['required', 'in:pendiente,completada,cancelada'],
+            'estado'       => ['required', 'in:pendiente,pagado,cancelado'],
         ]);
 
         try {
@@ -158,7 +158,7 @@ class CompraController extends Controller
             ]);
 
             // Si la compra se cancela, volver a poner el vehículo como disponible
-            if ($request->estado === 'cancelada') {
+            if ($request->estado === 'cancelado') {
                 $compra->vehiculo->update(['estado' => 'disponible']);
             }
 
@@ -183,15 +183,15 @@ class CompraController extends Controller
                 ->with('error', 'No tenés permisos para eliminar esta compra.');
         }
 
-        // No permitir eliminar una compra completada
-        if ($compra->estado === 'completada') {
+        // No permitir eliminar una compra pagada
+        if ($compra->estado === 'pagado') {
             return redirect()->route('compras.index')
-                ->with('error', 'No se puede eliminar una compra que ya fue completada.');
+                ->with('error', 'No se puede eliminar una compra que ya fue pagada.');
         }
 
         try {
-            // Si la compra no estaba completada, liberar el vehículo
-            if ($compra->estado !== 'completada') {
+            // Si la compra no estaba pagada, liberar el vehículo
+            if ($compra->estado !== 'pagado') {
                 $compra->vehiculo->update(['estado' => 'disponible']);
             }
 

@@ -96,7 +96,7 @@
 --}}
 
                     {{-- Botón favorito - solo para clientes --}}
-                    @if(Auth::user()->tipo_usuario === 'cliente')
+                    @if(Auth::user()->tipo_usuario === 'cliente'&& $vehiculo->estado === 'disponible')
                         <form method="POST" action="{{ route('favoritos.store') }}">
                             @csrf
                             <input type="hidden" name="id_vehiculo" value="{{ $vehiculo->id_vehiculo }}">
