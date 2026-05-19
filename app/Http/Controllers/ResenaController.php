@@ -62,42 +62,54 @@ class ResenaController extends Controller
 
     // Guardar nueva reseña
     public function store(Request $request)
-    {
-        $request->validate([
-            'id_vehiculo'  => ['required', 'exists:vehiculos,id_vehiculo'],
-            'calificacion' => ['required', 'integer', 'min:1', 'max:5'],
-            'comentario'   => ['nullable', 'string', 'max:500'],
+{
+    $request->validate([
+        'id_vehiculo'  => ['required', 'exists:vehiculos,id_vehiculo'],
+        'calificacion' => ['required', 'integer', 'min:1', 'max:5'],
+        'comentario'   => ['nullable', 'string', 'max:500'],
+    ]);
+
+    // Verificar que el usuario haya comprado y pagado el vehículo
+    $comproPagado = \App\Models\Compra::where('id_usuario', Auth::user()->id_usuario)
+                    ->where('id_vehiculo', $request->id_vehiculo)
+                    ->where('estado', 'pagado')
+                    ->exists();
+
+    if (!$comproPagado) {
+        return redirect()->back()
+            ->with('error', 'Solo podés reseñar vehículos que hayas comprado y pagado.')
+            ->withInput();
+    }
+
+    // Verificar que el usuario no haya reseñado ya ese vehículo
+    $existe = Resena::where('id_usuario', Auth::user()->id_usuario)
+                    ->where('id_vehiculo', $request->id_vehiculo)
+                    ->exists();
+
+    if ($existe) {
+        return redirect()->back()
+            ->with('error', 'Ya has dejado una reseña para este vehículo.')
+            ->withInput();
+    }
+
+    try {
+        Resena::create([
+            'id_usuario'   => Auth::user()->id_usuario,
+            'id_vehiculo'  => $request->id_vehiculo,
+            'calificacion' => $request->calificacion,
+            'comentario'   => $request->comentario,
+            'fecha'        => now(),
         ]);
 
-        // Verificar que el usuario no haya reseñado ya ese vehículo
-        $existe = Resena::where('id_usuario', Auth::user()->id_usuario)
-                        ->where('id_vehiculo', $request->id_vehiculo)
-                        ->exists();
+        return redirect()->route('resenas.index')
+            ->with('success', 'Reseña publicada correctamente.');
 
-        if ($existe) {
-            return redirect()->back()
-                ->with('error', 'Ya has dejado una reseña para este vehículo.')
-                ->withInput();
-        }
-
-        try {
-            Resena::create([
-                'id_usuario'   => Auth::user()->id_usuario,
-                'id_vehiculo'  => $request->id_vehiculo,
-                'calificacion' => $request->calificacion,
-                'comentario'   => $request->comentario,
-                'fecha'        => now(),
-            ]);
-
-            return redirect()->route('resenas.index')
-                ->with('success', 'Reseña publicada correctamente.');
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Error al publicar la reseña. Intentá de nuevo.')
-                ->withInput();
-        }
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'Error al publicar la reseña. Intentá de nuevo.')
+            ->withInput();
     }
+}
 
     // Formulario de edición
     public function edit(string $id)

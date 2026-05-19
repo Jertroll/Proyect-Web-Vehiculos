@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehiculo;
 use App\Models\Ubicacion;
+use App\Models\Resena;
+use App\Models\Compra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

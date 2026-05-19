@@ -4,8 +4,12 @@
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Mis Reseñas</h4>
-        <a href="{{ route('resenas.create') }}" class="btn btn-dark">+ Nueva reseña</a>
+        <h4 class="mb-0">
+            {{ Auth::user()->tipo_usuario === 'admin' ? 'Todas las Reseñas' : 'Mis Reseñas' }}
+        </h4>
+        @if(Auth::user()->tipo_usuario === 'cliente')
+            <a href="{{ route('resenas.create') }}" class="btn btn-dark">+ Nueva reseña</a>
+        @endif
     </div>
 
     {{-- Filtros --}}
@@ -39,6 +43,9 @@
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
+                        @if(Auth::user()->tipo_usuario === 'admin')
+                            <th>Usuario</th>
+                        @endif
                         <th>Vehículo</th>
                         <th>Calificación</th>
                         <th>Comentario</th>
@@ -50,6 +57,9 @@
                     @forelse($resenas as $resena)
                         <tr>
                             <td>{{ $resena->id_resena }}</td>
+                            @if(Auth::user()->tipo_usuario === 'admin')
+                                <td>{{ $resena->usuario->nombre ?? '—' }}</td>
+                            @endif
                             <td>{{ $resena->vehiculo->marca ?? '—' }} {{ $resena->vehiculo->modelo ?? '' }}</td>
                             <td>
                                 @for($i = 1; $i <= 5; $i++)
@@ -62,24 +72,27 @@
                                 <a href="{{ route('resenas.show', $resena->id_resena) }}"
                                    class="btn btn-sm btn-outline-primary">Ver</a>
 
-                                <a href="{{ route('resenas.edit', $resena->id_resena) }}"
-                                   class="btn btn-sm btn-outline-secondary">Editar</a>
+                                @if(Auth::user()->tipo_usuario === 'admin' || Auth::user()->id_usuario === $resena->id_usuario)
+                                    <a href="{{ route('resenas.edit', $resena->id_resena) }}"
+                                       class="btn btn-sm btn-outline-secondary">Editar</a>
 
-                                <form method="POST"
-                                      action="{{ route('resenas.destroy', $resena->id_resena) }}"
-                                      class="d-inline"
-                                      onsubmit="return confirm('¿Seguro que querés eliminar esta reseña?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        Eliminar
-                                    </button>
-                                </form>
+                                    <form method="POST"
+                                          action="{{ route('resenas.destroy', $resena->id_resena) }}"
+                                          class="d-inline"
+                                          onsubmit="return confirm('¿Seguro que querés eliminar esta reseña?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-4">
+                            <td colspan="{{ Auth::user()->tipo_usuario === 'admin' ? 7 : 6 }}"
+                                class="text-center text-muted py-4">
                                 No hay reseñas registradas.
                             </td>
                         </tr>
