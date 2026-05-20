@@ -38,9 +38,17 @@ return [
     */
 
     'guards' => [
+        // Guard original - Fase 2 (semanas 5-6)
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        // Segundo guard - Módulo Vue (semana 8)
+        // Independiente del guard web, sesión completamente separada
+        'vue' => [
+            'driver' => 'session',
+            'provider' => 'vue_users',
         ],
     ],
 
@@ -62,10 +70,18 @@ return [
     */
 
     'providers' => [
-    'users' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Usuario::class, 
-    ],
+        // Provider del guard original (Fase 2)
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Usuario::class,
+        ],
+
+        // Provider del guard Vue (Fase 6)
+        // Usa el mismo modelo Usuario pero con sesión independiente
+        'vue_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Usuario::class,
+        ],
     ],
 
     /*
@@ -101,7 +117,7 @@ return [
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
     |
-    | Here you may define the number of seconds before a password confirmation
+    | Here you may define the amount of seconds before a password confirmation
     | window expires and users are asked to re-enter their password via the
     | confirmation screen. By default, the timeout lasts for three hours.
     |

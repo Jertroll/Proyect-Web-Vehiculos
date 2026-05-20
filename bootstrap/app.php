@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Registro del middleware para la autenticación del módulo Vue
+        $middleware->alias([
+            'auth.vue' => \App\Http\Middleware\AuthVue::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
