@@ -56,7 +56,7 @@ class ResenaController extends Controller
             $vehiculoSeleccionado = Vehiculo::findOrFail($request->id_vehiculo);
         }
 
-        return view('resenas.create', compact('vehiculos', 'vehiculoSeleccionado'));
+        return view('resenas.create', compact('vehiculoSeleccionado'));
     }
 
     // Guardar nueva reseña
@@ -100,7 +100,7 @@ class ResenaController extends Controller
                 'fecha'        => now(),
             ]);
     
-            return redirect()->route('resenas.index')
+            return redirect()->route('vehiculos.show', $request->id_vehiculo)
                 ->with('success', 'Reseña publicada correctamente.');
     
         } catch (\Exception $e) {
@@ -148,7 +148,7 @@ class ResenaController extends Controller
                 'comentario'   => $request->comentario,
             ]);
 
-            return redirect()->route('resenas.index')
+            return redirect()->route('vehiculos.show', $resena->id_vehiculo)
                 ->with('success', 'Reseña actualizada correctamente.');
 
         } catch (\Exception $e) {
@@ -173,7 +173,7 @@ class ResenaController extends Controller
         try {
             $resena->delete();
 
-            return redirect()->route('resenas.index')
+            return redirect()->route('vehiculos.show', $resena->id_vehiculo)
                 ->with('success', 'Reseña eliminada correctamente.');
 
         } catch (\Exception $e) {

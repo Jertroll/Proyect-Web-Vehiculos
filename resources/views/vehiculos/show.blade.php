@@ -97,10 +97,27 @@
                                             {{ \Carbon\Carbon::parse($resena->fecha)->format('d/m/Y') }}
                                         </span>
                                     </div>
-                                    <div>
-                                        @for($i = 1; $i <= 5; $i++)
-                                            <span style="color: {{ $i <= $resena->calificacion ? '#ffc107' : '#dee2e6' }}">★</span>
-                                        @endfor
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div>
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <span style="color: {{ $i <= $resena->calificacion ? '#ffc107' : '#dee2e6' }}">★</span>
+                                            @endfor
+                                        </div>
+
+                                        {{-- Botones editar/eliminar solo para el autor --}}
+                                        @if(Auth::user()->id_usuario === $resena->id_usuario)
+                                            <a href="{{ route('resenas.edit', $resena->id_resena) }}"
+                                               class="btn btn-sm btn-outline-secondary">Editar</a>
+
+                                            <form method="POST"
+                                                  action="{{ route('resenas.destroy', $resena->id_resena) }}"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('¿Seguro que querés eliminar esta reseña?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                                 @if($resena->comentario)
@@ -119,16 +136,6 @@
             <div class="card shadow-sm mb-3">
                 <div class="card-body text-center">
                     <h3 class="text-success mb-3">${{ number_format($vehiculo->precio, 2) }}</h3>
-
-                    {{-- Botón comprar --}}
-                    {{--
-                    @if($vehiculo->estado === 'disponible' && Auth::user()->tipo_usuario === 'cliente')
-                        <a href="{{ route('compras.create', ['id_vehiculo' => $vehiculo->id_vehiculo]) }}"
-                           class="btn btn-success w-100 mb-2">Comprar ahora</a>
-                    @elseif($vehiculo->estado === 'vendido')
-                        <button class="btn btn-secondary w-100 mb-2" disabled>Vehículo vendido</button>
-                    @endif
-                    --}}
 
                     {{-- Botón favorito --}}
                     @if(Auth::user()->tipo_usuario === 'cliente' && $vehiculo->estado === 'disponible')
@@ -159,17 +166,6 @@
                             <a href="{{ route('resenas.create', ['id_vehiculo' => $vehiculo->id_vehiculo]) }}"
                                class="btn btn-outline-warning w-100 mb-2">
                                 ★ Dejar reseña
-                            </a>
-                        @elseif($comproPagado && $yaReseno)
-                            @php
-                                $miResena = $vehiculo->resenas
-                                    ->where('id_usuario', Auth::user()->id_usuario)
-                                    ->first();
-                            @endphp
-                            <hr>
-                            <a href="{{ route('resenas.edit', $miResena->id_resena) }}"
-                               class="btn btn-outline-secondary w-100 mb-2">
-                                ✎ Editar mi reseña
                             </a>
                         @endif
                     @endauth

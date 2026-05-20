@@ -63,6 +63,11 @@ class Vehiculo extends Model
         return $this->hasMany(Compra::class, 'id_vehiculo', 'id_vehiculo');
     }
 
+    public function favoritos()
+    {
+       return $this->hasMany(\App\Models\Favoritos::class, 'id_vehiculo', 'id_vehiculo');
+    }
+
     // Método para marcar como vendido (usado por Kim en CompraController)
     public function marcarComoVendido()
     {
