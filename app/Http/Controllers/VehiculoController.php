@@ -49,7 +49,7 @@ class VehiculoController extends Controller
     // Ver detalle de un vehículo
     public function show(string $id)
     {
-        $vehiculo = Vehiculo::with(['vendedor', 'ubicacion', 'imagenes'])
+        $vehiculo = Vehiculo::with(['vendedor', 'ubicacion', 'imagenes','resenas.usuario','compras',])
                             ->findOrFail($id);
 
         return view('vehiculos.show', compact('vehiculo'));

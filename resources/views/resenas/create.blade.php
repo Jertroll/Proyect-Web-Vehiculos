@@ -22,7 +22,7 @@
                     @endif
 
                     <form method="POST" action="{{ route('resenas.store') }}">
-                        @csrf
+                        @csrf 
                         <div class="mb-3">
                             <label class="form-label">Calificación</label>
                             <div class="d-flex gap-3">
