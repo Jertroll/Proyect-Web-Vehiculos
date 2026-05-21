@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-    {{-- 👇 ESTO ES LO QUE FALTABA: Cargar tu app.css y cerrar el head --}}
+    {{-- Cargar tu app.css y app.js mediante Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -35,41 +35,34 @@
 
             <div class="collapse navbar-collapse" id="navbarMenu">
 
-                {{-- Links del menú izquierdo - solo visibles si está logueado --}}
+                {{-- 🧭 LADO IZQUIERDO: LINKS GENERALES (MÁS LIMPIO) --}}
                 @auth
                 <ul class="navbar-nav me-auto">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('vehiculos.index') }}">Vehículos</a>
-                    </li>
-                    
-                    @if(Auth::user()->tipo_usuario === 'cliente')
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('favoritos.index') }}">Mis Favoritos</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('compras.index') }}">Mis Compras</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pagos.index') }}">Mis pagos</a>
-                    </li>
+                    @if (Auth::user()->tipo_usuario !== 'cliente')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
+                        </li>
                     @endif
+
+
+                    {{-- Catálogo en formato de tarjetas de lujo --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('vehiculos.indexCards') }}">Catálogo</a>
+                    </li>
                     
+                    {{-- 🛡️ Historial: Se queda aquí en la barra principal exclusivamente para el Administrador --}}
+                    @if(Auth::user()->tipo_usuario === 'admin')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('historial.index') }}">Historial</a>
                     </li>
+                    @endif
 
                     {{-- Opción Vue --}}
                     <li class="nav-item">
                         <a class="nav-link text-warning" href="{{ route('vue.index') }}">Uso de Vue</a>
                     </li>
 
-                    {{-- Menú solo visible para admin --}}
+                    {{-- Menú solo visible para admin (Mantiene todos tus accesos intactos) --}}
                     @if(Auth::user()->tipo_usuario === 'admin')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -77,10 +70,13 @@
                         </a>
                         <ul class="dropdown-menu shadow">
                             <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+                            <li><a class="dropdown-item" href="{{ route('vehiculos.index') }}">Vehiculos (Tabla)</a></li>
                             <li><a class="dropdown-item" href="{{ route('ubicaciones.index') }}">Ubicaciones</a></li>
                             <li><a class="dropdown-item" href="{{ route('imagenes-vehiculo.index') }}">Imágenes Vehículo</a></li>
-                            <li><a class="dropdown-item" href="{{ route('pagos.index') }}">Pagos</a></li>
+                            <li><a class="dropdown-item" href="{{ route('compras.index') }}">Compras General</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pagos.index') }}">Pagos General</a></li>
                             <li><a class="dropdown-item" href="{{ route('resenas.index') }}">Reseñas</a></li>
+                            <li><a class="dropdown-item" href="{{ route('favoritos.index') }}">Favoritos General</a></li>
                         </ul>
                     </li>
                     @endif
@@ -88,7 +84,7 @@
                 </ul>
                 @endauth
 
-                {{-- Lado derecho del navbar --}}
+                {{-- 👤 LADO DERECHO DEL NAVBAR: AUTENTICACIÓN Y OPCIONES DE PERFIL --}}
                 <ul class="navbar-nav ms-auto">
 
                     {{-- Si NO está logueado --}}
@@ -112,11 +108,44 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 <li>
-                                    <span class="dropdown-item-text text-white-50 small">
+                                    <span class="dropdown-item-text text-white-50 small d-block py-1">
                                         {{ Auth::user()->email }}
                                     </span>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
+
+                                {{-- ⭐ OPCIONES PERSONALES DEL CLIENTE --}}
+                                @if(Auth::user()->tipo_usuario === 'cliente')
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('favoritos.index') }}">
+                                            ⭐ Mis Favoritos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('compras.index') }}">
+                                            🛍️ Mis Compras
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('pagos.index') }}">
+                                            💳 Mis Pagos
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- 📜 MI HISTORIAL: Se integra aquí de forma privada para el Cliente y Vendedor --}}
+                                @if(Auth::user()->tipo_usuario === 'cliente' || Auth::user()->tipo_usuario === 'vendedor')
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('historial.index') }}">
+                                            📜 Mi Historial
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- Separador visual antes del botón de salida si el usuario no es admin --}}
+                                @if(Auth::user()->tipo_usuario !== 'admin')
+                                    <li><hr class="dropdown-divider"></li>
+                                @endif
 
                                 {{-- BOTÓN DE LOGOUT --}}
                                 <li>

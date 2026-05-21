@@ -82,7 +82,7 @@
                                 @if(Auth::user()->tipo_usuario === 'admin' || Auth::user()->id_usuario === $vehiculo->id_vendedor)
                                     <a href="{{ route('vehiculos.edit', $vehiculo->id_vehiculo) }}"
                                        class="btn btn-sm btn-outline-secondary">Editar</a>
-
+                                {{--El administrador solo podra eliminar aquellos vehiculos que no esten vendidos --}}
                                     @if($vehiculo->estado !== 'vendido')
                                         <form method="POST"
                                               action="{{ route('vehiculos.destroy', $vehiculo->id_vehiculo) }}"

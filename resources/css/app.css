@@ -159,3 +159,137 @@ body {
 .link-premium:hover {
     color: var(--color-premium-gold);
 }
+
+/* ---------------------------------------------------
+   ESTILOS PREMIUM PARA EL DASHBOARD
+----------------------------------------------------- */
+
+/* Tarjeta de bienvenida */
+.card-welcome-premium {
+    background-color: var(--color-premium-dark);
+    border: none;
+    border-radius: 12px;
+    border-left: 5px solid var(--color-premium-gold);
+}
+
+/* Tarjetas de estadísticas unificadas */
+.card-stat-premium {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 3px solid var(--color-premium-dark); /* Línea superior elegante */
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-stat-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-top-color: var(--color-premium-gold); /* Cambia a dorado al pasar el mouse */
+}
+
+/* El número grande del indicador */
+.stat-number {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    color: var(--color-premium-gold); /* El dato resalta en oro */
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: var(--color-premium-dark);
+}
+
+/* ---------------------------------------------------
+   ESTILOS PREMIUM PARA EL CATÁLOGO DE VEHÍCULOS (CARDS)
+----------------------------------------------------- */
+
+/* Tarjeta contenedora */
+.vehicle-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Contenedor de la foto para mantener proporciones fijas */
+.vehicle-img-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background-color: var(--color-premium-dark);
+}
+
+.vehicle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.vehicle-card:hover .vehicle-img {
+    transform: scale(1.06);
+}
+
+/* Badges flotantes sobre la imagen */
+.badge-status-disponible {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(46, 196, 182, 0.9) !important; /* Verde Esmeralda */
+    color: #FFFFFF !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+}
+
+.badge-status-vendido {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(26, 29, 32, 0.85) !important; /* Negro de fondo */
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Tipografías internas */
+.vehicle-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    color: var(--color-premium-dark);
+    font-size: 1.1rem;
+}
+
+.vehicle-card-price {
+    font-family: var(--font-sans);
+    color: var(--color-premium-gold);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+/* Contenedor de acciones secundarias de administración */
+.vehicle-actions-admin {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 0.75rem;
+}

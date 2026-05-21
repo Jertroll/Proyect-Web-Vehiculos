@@ -46,6 +46,35 @@ class VehiculoController extends Controller
         return view('vehiculos.index', compact('vehiculos'));
     }
 
+        public function indexCards(Request $request)
+    {
+        $query = Vehiculo::with(['vendedor', 'ubicacion', 'imagenes']);
+
+        // Filtro por marca
+        if ($request->filled('marca')) {
+            $query->where('marca', 'like', '%' . $request->marca . '%');
+        }
+
+        // Filtro por año
+        if ($request->filled('anio')) {
+            $query->where('anio', $request->anio);
+        }
+
+        // Filtro por precio máximo
+        if ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->precio_max);
+        }
+
+        // Filtro por estado
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        $vehiculos = $query->orderBy('fecha_publicacion', 'desc')->get();
+
+        return view('vehiculos.index-card', compact('vehiculos'));
+    }
+
     // Ver detalle de un vehículo
     public function show(string $id)
     {

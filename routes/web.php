@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VehiculoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // Vehículos
+    Route::get('vehiculos/cards', [VehiculoController::class, 'indexCards'])->name('vehiculos.indexCards');
     Route::resource('vehiculos', App\Http\Controllers\VehiculoController::class);
 
     // Imágenes de vehículo

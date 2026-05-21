@@ -42,6 +42,6 @@ class HomeController extends Controller
 
         }
 
-        return view('home', compact('usuario', 'datos'));
+        return view('home.home', compact('usuario', 'datos'));
     }
 }
