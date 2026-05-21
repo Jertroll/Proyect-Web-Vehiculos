@@ -3,9 +3,14 @@
 @section('content')
 <div class="container">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Mis Favoritos</h4>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Favoritos</h4>
+    @if(Auth::user()->tipo_usuario === 'admin')
+        <a href="{{ route('favoritos.create') }}" class="btn btn-dark">
+            + Nuevo favorito
+        </a>
+    @endif
+</div>
 
     {{-- Filtros --}}
     <div class="card shadow-sm mb-4">
@@ -84,7 +89,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="text-center text-muted py-4">
-                                No tenés vehículos en favoritos.
+                                No hay vehículos en favoritos.
                             </td>
                         </tr>
                     @endforelse

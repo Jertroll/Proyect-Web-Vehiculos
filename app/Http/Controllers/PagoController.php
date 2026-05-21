@@ -185,30 +185,24 @@ class PagoController extends Controller
 
     // Eliminar pago
     public function destroy(string $id_pago)
-    {
-        $pago = Pago::findOrFail($id_pago);
+{
+    $pago = Pago::findOrFail($id_pago);
 
-        // Solo un admin puede eliminar pagos
-        if (Auth::user()->tipo_usuario !== 'admin') {
-            return redirect()->route('pagos.index')
-                ->with('error', 'No tenés permisos para eliminar este pago.');
-        }
-
-        // No permitir eliminar un pago completado
-        if ($pago->estado === 'completado') {
-            return redirect()->route('pagos.index')
-                ->with('error', 'No se puede eliminar un pago que ya fue completado.');
-        }
-
-        try {
-            $pago->delete();
-
-            return redirect()->route('pagos.index')
-                ->with('success', 'Pago eliminado correctamente.');
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Error al eliminar el pago. Intentá de nuevo.');
-        }
+    // Solo un admin puede eliminar pagos
+    if (Auth::user()->tipo_usuario !== 'admin') {
+        return redirect()->route('pagos.index')
+            ->with('error', 'No tenés permisos para eliminar este pago.');
     }
+
+    try {
+        $pago->delete();
+
+        return redirect()->route('pagos.index')
+            ->with('success', 'Pago eliminado correctamente.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'Error al eliminar el pago. Intentá de nuevo.');
+    }
+}
 }

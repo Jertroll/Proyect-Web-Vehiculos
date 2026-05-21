@@ -55,6 +55,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('compras.index') }}">Mis Compras</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pagos.index') }}">Mis pagos</a>
+                    </li>
                     @endif
                     
                     <li class="nav-item">
