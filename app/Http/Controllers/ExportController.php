@@ -108,20 +108,39 @@ class ExportController extends Controller
     }
 
     public function abrirExplorador()
-    {
-        try {
+{
+    try {
+        // 1. Detectar el sistema operativo
+        $os = strtoupper(substr(PHP_OS, 0, 3));
+
+        if ($os === 'WIN') {
+            // Lógica para Windows
             $carpeta = getenv('USERPROFILE') . '\\Downloads';
             exec('explorer.exe "' . $carpeta . '"');
+        } else {
+            // Lógica para Linux (Mint, Ubuntu, etc.)
+            // En Linux, getenv('HOME') nos da algo como /home/jertroll
+            $carpeta = getenv('HOME') . '/Descargas'; 
+            
+            // Si el sistema está en inglés, la carpeta podría llamarse 'Downloads'
+            if (!file_exists($carpeta)) {
+                $carpeta = getenv('HOME') . '/Downloads';
+            }
 
-            return response()->json([
-                'mensaje' => 'Explorador abierto correctamente.',
-                'carpeta' => $carpeta
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Error al abrir el explorador: ' . $e->getMessage()
-            ], 500);
+            // 'xdg-open' es el comando universal en Linux para abrir carpetas
+            // con el explorador por defecto del sistema (en Mint abrirá Nemo)
+            exec('xdg-open "' . $carpeta . '" > /dev/null 2>&1 &');
         }
+
+        return response()->json([
+            'mensaje' => 'Explorador abierto correctamente.',
+            'carpeta' => $carpeta
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Error al abrir el explorador: ' . $e->getMessage()
+        ], 500);
     }
+}
 }

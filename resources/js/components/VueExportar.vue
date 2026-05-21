@@ -117,40 +117,61 @@ export default {
 
     // Método principal que exporta todas las tablas
     async exportarCSV() {
-      this.exportando   = true
-      this.mensajeExito = ''
-      this.mensajeError = ''
+  this.exportando   = true
+  this.mensajeExito = ''
+  this.mensajeError = ''
 
-      try {
-        // Obtener datos de cada tabla usando axios
-        // Patrón tomado del proyecto semana 12
-        const promesas = this.tablas.map(tabla =>
-          axios.get(tabla.url).then(response => ({
-            nombre: tabla.nombre,
-            datos:  response.data
-          }))
-        )
+  try {
+    // Capturamos el éxito o fallo de cada tabla individualmente
+    const promesas = this.tablas.map(tabla =>
+      axios.get(tabla.url)
+        .then(response => ({
+          nombre: tabla.nombre,
+          datos:  response.data,
+          correcto: true
+        }))
+        .catch(error => ({
+          nombre: tabla.nombre,
+          datos:  [],
+          correcto: false // Si falla, guardamos que falló pero NO rompemos el flujo
+        }))
+    )
 
-        const resultados = await Promise.all(promesas)
+    const resultados = await Promise.all(promesas)
 
-        // Generar y descargar un CSV por cada tabla
-        resultados.forEach(resultado => {
+    let archivosDescargados = 0
+    let tablasConError = []
+
+    // Procesamos los resultados uno por uno
+    resultados.forEach(resultado => {
+      if (resultado.correcto) {
+        if (resultado.datos.length > 0) {
           this.generarCSV(resultado.nombre, resultado.datos)
-        })
-
-        // Abrir explorador de Windows en la carpeta de descargas
-        await this.abrirExplorador()
-
-        this.mensajeExito = 'Se exportaron 8 archivos CSV correctamente en la carpeta de Descargas.'
-
-      } catch (error) {
-        console.error('Error al exportar:', error)
-        this.mensajeError = 'Error al exportar los archivos. Intente de nuevo.'
-
-      } finally {
-        this.exportando = false
+          archivosDescargados++
+        }
+      } else {
+        tablasConError.push(resultado.nombre)
       }
-    },
+    })
+
+    // Abrir explorador de Windows
+    await this.abrirExplorador()
+
+    // Personalizamos el mensaje final según lo que haya pasado
+    if (tablasConError.length > 0) {
+      this.mensajeExito = `Se exportaron ${archivosDescargados} archivos. `
+      this.mensajeError = `No se pudieron exportar las siguientes tablas por falta de modelos: ${tablasConError.join(', ')}.`
+    } else {
+      this.mensajeExito = '¡Exportación exitosa! Se exportaron las 8 tablas correctamente.'
+    }
+
+  } catch (error) {
+    console.error('Error crítico al exportar:', error)
+    this.mensajeError = 'Ocurrió un error inesperado en el sistema.'
+  } finally {
+    this.exportando = false
+  }
+},
 
     // Genera y descarga un archivo CSV desde los datos JSON
     generarCSV(nombreTabla, datos) {
@@ -180,7 +201,7 @@ export default {
       const nombreArchivo = `${nombreTabla}_${fecha}_${hora}.csv`
 
       // Crear blob y disparar descarga
-      const blob = new Blob([contenidoCSV], { type: 'text/csv;charset=utf-8;' })
+      const blob = new Blob([contenidoCSV], { type: 'text/csv;charsedt=utf-8;' })
       const url  = URL.createObjectURL(blob)
       const link = document.createElement('a')
 

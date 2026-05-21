@@ -53,11 +53,11 @@
 
 {{-- Opción Vue - requerida por el enunciado --}}
 {{-- Se habilita en la Fase 6 --}}
-{{-- 
+
 <li class="nav-item">
     <a class="nav-link" href="{{ route('vue.index') }}">Uso de Vue</a>
 </li>
---}}
+
 
                     {{-- Menú solo visible para admin --}}
                     @if(Auth::user()->tipo_usuario === 'admin')

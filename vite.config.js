@@ -9,8 +9,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                // Entrada adicional para el módulo Vue (Fase 6)
-                'resources/js/vue-app/main-vue.js',
+                
             ],
             refresh: true,
         }),
