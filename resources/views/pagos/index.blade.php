@@ -4,8 +4,10 @@
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Mis Pagos</h4>
-        <a href="{{ route('pagos.create') }}" class="btn btn-dark">+ Registrar pago</a>
+        <h4 class="mb-0">Pagos</h4>
+        <a href="{{ route('ubicaciones.create') }}" class="btn btn-dark">
+            + Nuevo pago
+        </a>
     </div>
 
     {{-- Filtros --}}
@@ -79,18 +81,16 @@
                                     <a href="{{ route('pagos.edit', $pago->id_pago) }}"
                                        class="btn btn-sm btn-outline-secondary">Editar</a>
 
-                                    @if($pago->estado !== 'completado')
-                                        <form method="POST"
-                                              action="{{ route('pagos.destroy', $pago->id_pago) }}"
-                                              class="d-inline"
-                                              onsubmit="return confirm('¿Seguro que querés eliminar este pago?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    @endif
+                                    <form method="POST"
+                                          action="{{ route('pagos.destroy', $pago->id_pago) }}"
+                                          class="d-inline"
+                                          onsubmit="return confirm('¿Seguro que querés eliminar este pago?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            Eliminar
+                                        </button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>

@@ -46,6 +46,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('compras.index') }}">Mis Compras</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pagos.index') }}">Mis pagos</a>
+                    </li>
                     @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('historial.index') }}">Historial</a>
@@ -76,7 +79,13 @@
                                 <a class="dropdown-item" href="{{ route('imagenes-vehiculo.index') }}">Imágenes Vehículo</a>
                             </li>
                             <li>
+                                <a class="dropdown-item" href="{{ route('compras.index') }}">Compras</a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" href="{{ route('pagos.index') }}">Pagos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('favoritos.index') }}">Favoritos</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('resenas.index') }}">Reseñas</a>

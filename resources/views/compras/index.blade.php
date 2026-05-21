@@ -3,9 +3,14 @@
 @section('content')
 <div class="container">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Mis Compras</h4>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Compras</h4>
+    @if(Auth::user()->tipo_usuario === 'admin')
+        <a href="{{ route('compras.create') }}" class="btn btn-dark">
+            + Nueva compra
+        </a>
+    @endif
+</div>
 
     {{-- Filtros --}}
     <div class="card shadow-sm mb-4">
