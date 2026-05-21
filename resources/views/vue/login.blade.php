@@ -7,26 +7,18 @@
 
             <div class="card shadow-sm mt-4">
                 <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Módulo Vue — Iniciar sesión</h5>
+                    <h5 class="mb-0 text-center">Módulo Vue — Iniciar sesión</h5>
                 </div>
                 <div class="card-body p-4">
 
-                    {{-- Nota informativa --}}
-                    <div class="alert alert-info mb-4">
-                        <small>
-                            Esta es una autenticación <strong>independiente</strong>
-                            del sistema principal, implementada con el método
-                            de la semana 8 usando <code>Auth::guard('vue')</code>.
-                        </small>
-                    </div>
-
-                    {{-- Mensaje de error general --}}
-                    @if(session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    @endif
+                <div class="text-center mb-4">
+                    <img src="{{ Vite::asset('public/assets/vue-logo.png') }}" 
+                        alt="Logo de Vue" 
+                        style="max-width: 150px; height: auto;">
+                </div>
+                
+            
+  
 
                     <form method="POST" action="{{ route('vue.login.post') }}">
                         @csrf

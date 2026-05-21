@@ -103,7 +103,7 @@
 
             {{-- PORTAL EXCLUSIVO PARA EL CLIENTE --}}
             @else
-                @include('partials.home-cliente')
+                @include('home.home-cliente')
             @endif
 
         </div>
