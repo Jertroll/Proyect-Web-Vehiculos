@@ -12,9 +12,6 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    /**
-     * Redirigir al home después del registro
-     */
     protected $redirectTo = '/home';
 
     public function __construct()
@@ -37,10 +34,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Crear el usuario nuevo en la tabla usuarios
-     * con todos los campos del esquema del enunciado
-     */
     protected function create(array $data)
     {
         return Usuario::create([

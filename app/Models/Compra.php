@@ -4,22 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Compra
- *
- * @property $id_compra
- * @property $id_usuario
- * @property $id_vehiculo
- * @property $precio_final
- * @property $fecha_compra
- * @property $estado
- *
- * @property Usuario $usuario
- * @property Vehiculo $vehiculo
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
-
 class Compra extends Model
 {
     public $timestamps = false;

@@ -20,12 +20,6 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-    /**
-     * Sobrescribimos el campo de login
-     * Por defecto Laravel usa 'email', como nuestra
-     * tabla también usa email no hace falta cambiarlo,
-     * pero lo dejamos explícito por claridad
-     */
     public function username()
     {
         return 'email';

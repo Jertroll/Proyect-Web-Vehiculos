@@ -4,22 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Resena
- *
- * @property $id_resena
- * @property $id_usuario
- * @property $id_vehiculo
- * @property $calificacion
- * @property $comentario
- * @property $fecha
- *
- * @property Usuario $usuario
- * @property Vehiculo $vehiculo
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
-
 class Resena extends Model
 {
 

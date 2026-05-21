@@ -27,13 +27,13 @@
                     </div>
                 </div>
 
-                {{-- Título de sección sutil --}}
+                {{-- Título de sección --}}
                 <div class="mb-4">
                     <h6 class="text-muted text-uppercase letter-spacing-1 fw-bold">Descripción General del Sistema</h6>
                     <hr class="mt-2 opacity-10" style="border-color: var(--color-premium-dark);">
                 </div>
 
-                {{-- ⚡ CONTENEDOR FILA REUBICADO CORRECTAMENTE --}}
+                {{-- CONTENEDOR FILA REUBICADO CORRECTAMENTE --}}
                 <div class="row g-4">
 
                     @if($usuario->tipo_usuario === 'admin')
@@ -72,7 +72,7 @@
                         </div>
 
                     @elseif($usuario->tipo_usuario === 'vendedor')
-                        {{-- Tarjetas para el Vendedor (Ahora sí se alinearán en horizontal) --}}
+                        {{-- Tarjetas para el Vendedor --}}
                         <div class="col-md-4">
                             <div class="card card-stat-premium p-4 shadow-sm">
                                 <div class="card-body text-center">
@@ -99,7 +99,7 @@
                         </div>
                     @endif
 
-                </div> {{-- El cierre del row g-4 DEBE estar aquí --}}
+                </div> 
 
             {{-- PORTAL EXCLUSIVO PARA EL CLIENTE --}}
             @else

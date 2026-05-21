@@ -14,7 +14,7 @@ class ImagenVehiculoController extends Controller
         $this->middleware('auth');
     }
 
-    // Listar imágenes de un vehículo específico
+    // Listar imágenes de un vehículo
     public function index(Request $request)
     {
         // Si viene id_vehiculo en la URL filtramos por ese vehículo
@@ -35,7 +35,7 @@ class ImagenVehiculoController extends Controller
     {
         $vehiculos = Vehiculo::orderBy('marca')->get();
 
-        // Si viene preseleccionado un vehículo desde la vista show
+        // Si viene preseleccionado un vehículo 
         $id_vehiculo = $request->query('id_vehiculo');
 
         return view('imagenes.create', compact('vehiculos', 'id_vehiculo'));
@@ -51,7 +51,7 @@ class ImagenVehiculoController extends Controller
             'orden'       => ['required', 'integer', 'min:0'],
         ]);
 
-        // Solo el vendedor dueño o admin puede agregar imágenes
+        // Solo el vendedor o admin puede agregar imágenes
         $vehiculo = Vehiculo::findOrFail($request->id_vehiculo);
 
         if (Auth::user()->tipo_usuario !== 'admin' &&
@@ -85,7 +85,7 @@ class ImagenVehiculoController extends Controller
         $imagen    = ImagenVehiculo::with('vehiculo')->findOrFail($id);
         $vehiculos = Vehiculo::orderBy('marca')->get();
 
-        // Solo el vendedor dueño o admin puede editar
+        // Solo el vendedor o admin puede editar
         if (Auth::user()->tipo_usuario !== 'admin' &&
             $imagen->vehiculo->id_vendedor !== Auth::user()->id_usuario) {
             return redirect()->route('imagenes-vehiculo.index')
@@ -100,7 +100,7 @@ class ImagenVehiculoController extends Controller
     {
         $imagen = ImagenVehiculo::with('vehiculo')->findOrFail($id);
 
-        // Solo el vendedor dueño o admin puede actualizar
+        // Solo el vendedor o admin puede actualizar
         if (Auth::user()->tipo_usuario !== 'admin' &&
             $imagen->vehiculo->id_vendedor !== Auth::user()->id_usuario) {
             return redirect()->route('imagenes-vehiculo.index')
@@ -135,7 +135,7 @@ class ImagenVehiculoController extends Controller
     {
         $imagen = ImagenVehiculo::with('vehiculo')->findOrFail($id);
 
-        // Solo el vendedor dueño o admin puede eliminar
+        // Solo el vendedor o admin puede eliminar
         if (Auth::user()->tipo_usuario !== 'admin' &&
             $imagen->vehiculo->id_vendedor !== Auth::user()->id_usuario) {
             return redirect()->route('imagenes-vehiculo.index')

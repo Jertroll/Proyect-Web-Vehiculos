@@ -24,7 +24,6 @@
                     <form method="POST" action="{{ route('compras.store') }}">
                         @csrf
 
-                        {{-- Selector de vehículo --}}
                         <div class="mb-3">
                             <label for="id_vehiculo" class="form-label">Vehículo</label>
                             <select name="id_vehiculo" id="id_vehiculo"
@@ -57,7 +56,7 @@
                             </div>
                         </div>
 
-                        {{-- Panel de pago (oculto por defecto) --}}
+                        {{-- Panel de pago-}}
                         <div id="panel_pago" class="{{ old('pagar_ahora') ? '' : 'd-none' }}">
                             <div class="card border-success mb-3">
                                 <div class="card-header bg-success text-white">
@@ -189,7 +188,7 @@
         montoHidden.value = raw;
     });
 
-    // Inicializar estado al cargar (por si hubo old() tras error de validación)
+    // Inicializar estado al cargar
     if (toggle.checked) {
         metodo.required = true;
         updatePrecioRef();

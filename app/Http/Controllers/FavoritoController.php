@@ -14,13 +14,12 @@ class FavoritoController extends Controller
         $this->middleware('auth');
     }
 
-    // Listar favoritos del usuario autenticado
+    // Listar favoritos 
     public function index(Request $request)
     {
         $query = Favoritos::with(['usuario', 'vehiculo'])
         ->where('id_usuario', Auth::user()->id_usuario);
 
-        // Filtro por estado
         if ($request->filled('estado')) {
             $query->where('estado', $request->estado);
         }
@@ -52,7 +51,7 @@ class FavoritoController extends Controller
     {
         $vehiculos = Vehiculo::where('estado', 'disponible')->orderBy('marca')->get();
 
-        // Si viene un vehículo preseleccionado (ej: desde la vista de detalle)
+        // Si viene un vehículo preseleccionado 
         $vehiculoSeleccionado = null;
         if ($request->filled('id_vehiculo')) {
             $vehiculoSeleccionado = Vehiculo::findOrFail($request->id_vehiculo);
@@ -69,7 +68,7 @@ class FavoritoController extends Controller
         'nota'        => ['nullable', 'string', 'max:255'],
     ]);
 
-    // Verificar que no exista ya ese favorito para el usuario
+    // Verificar que no exista ya ese vehiculo en favoritos 
     $existe = Favoritos::where('id_usuario', Auth::user()->id_usuario)
                       ->where('id_vehiculo', $request->id_vehiculo)
                       ->exists();
@@ -99,7 +98,7 @@ class FavoritoController extends Controller
     }
 }
 
-    // Formulario de edición (para modificar la nota o el estado)
+    // Formulario de edición 
     public function edit(string $id_favorito)
     {
         $favorito = Favoritos::findOrFail($id_favorito);

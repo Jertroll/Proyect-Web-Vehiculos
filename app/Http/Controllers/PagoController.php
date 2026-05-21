@@ -19,19 +19,16 @@ class PagoController extends Controller
     {
         $query = Pago::with(['compra']);
 
-        // Un usuario normal solo ve los pagos de sus propias compras
         if (Auth::user()->tipo_usuario !== 'admin') {
             $query->whereHas('compra', function ($q) {
                 $q->where('id_usuario', Auth::user()->id_usuario);
             });
         }
 
-        // Filtro por estado
         if ($request->filled('estado')) {
             $query->where('estado', $request->estado);
         }
 
-        // Filtro por método de pago
         if ($request->filled('metodo_pago')) {
             $query->where('metodo_pago', $request->metodo_pago);
         }

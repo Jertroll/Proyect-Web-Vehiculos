@@ -4,32 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Favoritos
- *
- * @property $id_favorito
- * @property $id_usuario
- * @property $id_vehiculo
- * @property $fecha_agregado
- * @property $estado
- * @property $nota
- *
- * @property Usuario $usuario
- * @property Vehiculo $vehiculo
- * @package App
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 
 class Favoritos extends Model
 {
 
     public $timestamps = false;
     protected $primaryKey = 'id_favorito';
-    /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
 
     protected $fillable = [
         'id_usuario',

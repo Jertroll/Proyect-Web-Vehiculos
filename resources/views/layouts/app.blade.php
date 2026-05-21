@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-    {{-- Cargar tu app.css y app.js mediante Vite --}}
+    {{-- Cargar app.css y app.js mediante Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -35,7 +35,6 @@
 
             <div class="collapse navbar-collapse" id="navbarMenu">
 
-                {{-- 🧭 LADO IZQUIERDO: LINKS GENERALES (MÁS LIMPIO) --}}
                 @auth
                 <ul class="navbar-nav me-auto">
                     @if (Auth::user()->tipo_usuario !== 'cliente')
@@ -45,12 +44,11 @@
                     @endif
 
 
-                    {{-- Catálogo en formato de tarjetas de lujo --}}
+                    {{-- Catálogo en formato de tarjetas --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('vehiculos.indexCards') }}">Catálogo</a>
                     </li>
                     
-                    {{-- 🛡️ Historial: Se queda aquí en la barra principal exclusivamente para el Administrador --}}
                     @if(Auth::user()->tipo_usuario === 'admin')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('historial.index') }}">Historial</a>
@@ -62,7 +60,7 @@
                         <a class="nav-link text-warning" href="{{ route('vue.index') }}">Uso de Vue</a>
                     </li>
 
-                    {{-- Menú solo visible para admin (Mantiene todos tus accesos intactos) --}}
+                    {{-- Menú solo visible para admin --}}
                     @if(Auth::user()->tipo_usuario === 'admin')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -84,7 +82,6 @@
                 </ul>
                 @endauth
 
-                {{-- 👤 LADO DERECHO DEL NAVBAR: AUTENTICACIÓN Y OPCIONES DE PERFIL --}}
                 <ul class="navbar-nav ms-auto">
 
                     {{-- Si NO está logueado --}}
@@ -114,7 +111,6 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
 
-                                {{-- ⭐ OPCIONES PERSONALES DEL CLIENTE --}}
                                 @if(Auth::user()->tipo_usuario === 'cliente')
                                     <li>
                                         <a class="dropdown-item" href="{{ route('favoritos.index') }}">
@@ -133,7 +129,6 @@
                                     </li>
                                 @endif
 
-                                {{-- 📜 MI HISTORIAL: Se integra aquí de forma privada para el Cliente y Vendedor --}}
                                 @if(Auth::user()->tipo_usuario === 'cliente' || Auth::user()->tipo_usuario === 'vendedor')
                                     <li>
                                         <a class="dropdown-item" href="{{ route('historial.index') }}">
@@ -198,7 +193,7 @@
     {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- Scripts adicionales por vista --}}
+    {{-- Scripts adicionales --}}
     @stack('scripts')
 
 </body>
