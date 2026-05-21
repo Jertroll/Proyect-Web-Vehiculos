@@ -56,7 +56,7 @@
                             </div>
                         </div>
 
-                        {{-- Panel de pago-}}
+                        {{-- Panel de pago--}}
                         <div id="panel_pago" class="{{ old('pagar_ahora') ? '' : 'd-none' }}">
                             <div class="card border-success mb-3">
                                 <div class="card-header bg-success text-white">

@@ -4,10 +4,12 @@
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Pagos</h4>
-        <a href="{{ route('ubicaciones.create') }}" class="btn btn-dark">
-            + Nuevo pago
+    <h4 class="mb-0">Pagos</h4>
+    @if(Auth::user()->tipo_usuario === 'admin')
+        <a href="{{ route('compras.create') }}" class="btn btn-dark">
+        + Nuevo pago
         </a>
+    @endif
     </div>
 
     {{-- Filtros --}}
