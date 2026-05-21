@@ -24,9 +24,12 @@ class HistorialController extends Controller
           'vehiculo.favoritos'
         ]);
 
-        // Cliente solo ve sus propias transacciones
         if (Auth::user()->tipo_usuario === 'cliente') {
             $query->where('id_usuario', Auth::user()->id_usuario);
+        }elseif (Auth::user()->tipo_usuario === 'vendedor'){
+            $query->whereHas('vehiculo', function ($q) {
+                $q->where('id_vendedor', Auth::user()->id_usuario);
+            });
         }
 
         $compras = $query->orderBy('fecha_compra', 'desc')->get();

@@ -18,7 +18,6 @@ class VueAuthController extends Controller
         return view('vue.login');
     }
 
-    // Procesar login Vue (semana 8 - Auth::guard()->attempt())
     public function login(Request $request)
     {
         $request->validate([
@@ -51,7 +50,7 @@ class VueAuthController extends Controller
         return redirect()->route('vue.login');
     }
 
-    // Vista principal del módulo Vue (requiere auth del guard vue)
+    // Vista principal del módulo Vue 
     public function index()
     {
         return view('vue.index');

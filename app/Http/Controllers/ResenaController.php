@@ -25,12 +25,10 @@ class ResenaController extends Controller
             $query->where('id_usuario', Auth::user()->id_usuario);
         }
 
-        // Filtro por calificación
         if ($request->filled('calificacion')) {
             $query->where('calificacion', $request->calificacion);
         }
 
-        // Filtro por vehículo
         if ($request->filled('id_vehiculo')) {
             $query->where('id_vehiculo', $request->id_vehiculo);
         }
@@ -80,7 +78,6 @@ class ResenaController extends Controller
                 ->withInput();
         }
     
-        // Verificar que no haya reseñado ya ese vehículo
         $existe = Resena::where('id_usuario', Auth::user()->id_usuario)
                         ->where('id_vehiculo', $request->id_vehiculo)
                         ->exists();
@@ -115,7 +112,7 @@ class ResenaController extends Controller
     {
         $resena = Resena::findOrFail($id);
 
-        // Solo el autor o un admin puede editar
+        // Solo el cliente o un admin puede editar
         if (Auth::user()->tipo_usuario !== 'admin' &&
             $resena->id_usuario !== Auth::user()->id_usuario) {
             return redirect()->route('resenas.index')
@@ -130,7 +127,7 @@ class ResenaController extends Controller
     {
         $resena = Resena::findOrFail($id);
 
-        // Solo el autor o un admin puede actualizar
+        // Solo el cliente o un admin puede actualizar
         if (Auth::user()->tipo_usuario !== 'admin' &&
             $resena->id_usuario !== Auth::user()->id_usuario) {
             return redirect()->route('resenas.index')
@@ -163,7 +160,7 @@ class ResenaController extends Controller
     {
         $resena = Resena::findOrFail($id);
 
-        // Solo el autor o un admin puede eliminar
+        // Solo el cliente o un admin puede eliminar
         if (Auth::user()->tipo_usuario !== 'admin' &&
             $resena->id_usuario !== Auth::user()->id_usuario) {
             return redirect()->route('resenas.index')
