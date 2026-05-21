@@ -4,7 +4,7 @@
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Vehículos</h4>
+        <h4 class="mb-0">Modulo Vehiculos</h4>
         @if(Auth::user()->tipo_usuario === 'vendedor' || Auth::user()->tipo_usuario === 'admin')
             <a href="{{ route('vehiculos.create') }}" class="btn btn-dark">
                 + Publicar vehículo
