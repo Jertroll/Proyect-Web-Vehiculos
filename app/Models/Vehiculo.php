@@ -51,6 +51,22 @@ class Vehiculo extends Model
         return $this->hasMany(ImagenVehiculo::class, 'id_vehiculo', 'id_vehiculo')
                     ->orderBy('orden');
     }
+    // Relación con las reseñas
+    public function resenas()
+    {
+        return $this->hasMany(Resena::class, 'id_vehiculo', 'id_vehiculo');
+    } 
+
+    // Relación con las compras
+    public function compras()
+    {
+        return $this->hasMany(Compra::class, 'id_vehiculo', 'id_vehiculo');
+    }
+
+    public function favoritos()
+    {
+       return $this->hasMany(\App\Models\Favoritos::class, 'id_vehiculo', 'id_vehiculo');
+    }
 
     // Método para marcar como vendido (usado por Kim en CompraController)
     public function marcarComoVendido()

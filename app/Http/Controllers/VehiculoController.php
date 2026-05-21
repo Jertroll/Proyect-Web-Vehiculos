@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehiculo;
 use App\Models\Ubicacion;
+use App\Models\Resena;
+use App\Models\Compra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,7 +49,7 @@ class VehiculoController extends Controller
     // Ver detalle de un vehículo
     public function show(string $id)
     {
-        $vehiculo = Vehiculo::with(['vendedor', 'ubicacion', 'imagenes'])
+        $vehiculo = Vehiculo::with(['vendedor', 'ubicacion', 'imagenes','resenas.usuario','compras',])
                             ->findOrFail($id);
 
         return view('vehiculos.show', compact('vehiculo'));

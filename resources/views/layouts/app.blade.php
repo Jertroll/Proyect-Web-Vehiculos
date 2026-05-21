@@ -38,7 +38,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('vehiculos.index') }}">Vehículos</a>
                     </li>
-
+                    @if(Auth::user()->tipo_usuario === 'cliente')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('favoritos.index') }}">Mis Favoritos</a>
                     </li>
@@ -46,7 +46,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('compras.index') }}">Mis Compras</a>
                     </li>
-
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('historial.index') }}">Historial</a>
                     </li>
