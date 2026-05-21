@@ -1,11 +1,161 @@
-@import 'tailwindcss';
+/*@import 'tailwindcss';*/
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* 🎨 CONFIGURACIÓN DE TU PALETA PREMIUM EN TAILWIND v4 */
+:root {
+    --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+
+    /* Registramos tus colores de lujo como clases nativas de Tailwind */
+    --color-premium-dark: #1A1D20;
+    --color-premium-gold: #D4AF37;
+    --color-premium-light: #F4F5F6;
+    --color-premium-muted: #6C757D;
+}
+
+/* 🚀 ESTILOS COMPLEMENTARIOS PARA TU PLANTILLA BOOTSTRAP */
+body {
+    background-color: var(--color-premium-light);
+    color: var(--color-premium-dark);
+}
+
+/* Navbar de Lujo */
+.navbar-premium {
+    background-color: var(--color-premium-dark) !important;
+    border-bottom: 2px solid var(--color-premium-gold);
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
+
+.navbar-premium .navbar-brand {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: #FFFFFF !important;
+    letter-spacing: 1px;
+}
+
+.navbar-premium .navbar-brand::first-letter {
+    color: var(--color-premium-gold) !important;
+}
+
+.navbar-premium .nav-link {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #E0E0E0 !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-premium .nav-link:hover,
+.navbar-premium .nav-item.show .nav-link {
+    color: var(--color-premium-gold) !important;
+}
+
+/* Insignia / Badge de Usuario */
+.badge-premium {
+    background-color: transparent !important;
+    border: 1px solid var(--color-premium-gold) !important;
+    color: var(--color-premium-gold) !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.35em 0.65em;
+}
+
+/* Dropdowns Estilizados */
+.dropdown-menu {
+    background-color: var(--color-premium-dark);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-top: 2px solid var(--color-premium-gold);
+    border-radius: 0 0 4px 4px;
+}
+
+.dropdown-item {
+    color: #E0E0E0 !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--color-premium-gold) !important;
+    color: var(--color-premium-dark) !important;
+}
+
+.dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Alertas limpias y elegantes */
+.alert {
+    border: none;
+    border-left: 4px solid;
+    border-radius: 4px;
+    font-weight: 500;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+.alert-success { border-left-color: #2ec4b6; color: #1e293b; }
+.alert-danger { border-left-color: #e63946; color: #1e293b; }
+.alert-warning { border-left-color: #ffb703; color: #1e293b; }
+
+/* ---------------------------------------------------
+   ESTILOS PREMIUM PARA FORMULARIOS Y TARJETAS
+----------------------------------------------------- */
+
+/* Tarjetas de lujo (Login/Register) */
+.card-premium {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
+    overflow: hidden; /* Evita que el header se salga de los bordes curvos */
+}
+
+.card-premium .card-header {
+    background-color: var(--color-premium-dark);
+    border-bottom: 3px solid var(--color-premium-gold);
+}
+
+.premium-title {
+    font-family: var(--font-serif);
+    color: var(--color-premium-gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Botón de acción principal */
+.btn-premium {
+    background-color: var(--color-premium-dark);
+    color: var(--color-premium-gold);
+    border: 1px solid var(--color-premium-gold);
+    transition: all 0.3s ease;
+}
+
+.btn-premium:hover, .btn-premium:focus {
+    background-color: var(--color-premium-gold);
+    color: var(--color-premium-dark);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* Campos de texto (Inputs) - Borde dorado al hacer foco */
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-premium-gold);
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+}
+
+/* Enlaces sutiles */
+.link-premium {
+    color: var(--color-premium-muted);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link-premium:hover {
+    color: var(--color-premium-gold);
 }

@@ -9,7 +9,7 @@ use App\Models\ImagenVehiculo;
 use App\Models\Ubicacion;
 use App\Models\Compra;
 use App\Models\Pago;
-use App\Models\Favorito;
+use App\Models\Favoritos;
 use App\Models\Resena;
 
 class ExportController extends Controller
@@ -88,7 +88,7 @@ class ExportController extends Controller
     public function favoritos()
     {
         try {
-            return response()->json(Favorito::all());
+            return response()->json(Favoritos::all());
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al obtener favoritos: ' . $e->getMessage()

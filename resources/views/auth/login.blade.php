@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-5"> {{-- Reducido un poco para que se vea más esbelto --}}
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Iniciar sesión</h5>
+            <div class="card card-premium">
+                <div class="card-header py-4 text-center">
+                    <h4 class="premium-title mb-0">Iniciar sesión</h4>
                 </div>
 
-                <div class="card-body p-4">
+                <div class="card-body p-5">
 
                     {{-- Mensaje de error general de credenciales --}}
                     @if(session('error'))
@@ -24,8 +24,8 @@
                         @csrf
 
                         {{-- Email --}}
-                        <div class="mb-3">
-                            <label for="email" class="form-label">
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-semibold">
                                 Correo electrónico
                             </label>
                             <input
@@ -33,13 +33,12 @@
                                 type="email"
                                 name="email"
                                 value="{{ old('email') }}"
-                                class="form-control @error('email') is-invalid @enderror"
+                                class="form-control form-control-lg @error('email') is-invalid @enderror"
                                 required
                                 autofocus
                                 autocomplete="email"
                                 placeholder="correo@ejemplo.com"
                             >
-                            {{-- Error de validación del email --}}
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -48,20 +47,19 @@
                         </div>
 
                         {{-- Password --}}
-                        <div class="mb-3">
-                            <label for="password" class="form-label">
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold">
                                 Contraseña
                             </label>
                             <input
                                 id="password"
                                 type="password"
                                 name="password"
-                                class="form-control @error('password') is-invalid @enderror"
+                                class="form-control form-control-lg @error('password') is-invalid @enderror"
                                 required
                                 autocomplete="current-password"
                                 placeholder="Mínimo 8 caracteres"
                             >
-                            {{-- Error de validación del password --}}
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -70,7 +68,7 @@
                         </div>
 
                         {{-- Recordarme --}}
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <div class="form-check">
                                 <input
                                     class="form-check-input"
@@ -79,24 +77,24 @@
                                     id="remember"
                                     {{ old('remember') ? 'checked' : '' }}
                                 >
-                                <label class="form-check-label" for="remember">
-                                    Recordarme
+                                <label class="form-check-label text-muted" for="remember">
+                                    Recordarme en este dispositivo
                                 </label>
                             </div>
                         </div>
 
                         {{-- Botón submit --}}
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-dark">
-                                Iniciar sesión
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-premium btn-lg fw-bold text-uppercase">
+                                Ingresar al sistema
                             </button>
                         </div>
 
                         {{-- Link a registro --}}
-                        <div class="text-center">
-                            <span class="text-muted small">
-                                ¿No tenés cuenta?
-                                <a href="{{ route('register') }}">Registrate aquí</a>
+                        <div class="text-center mt-3">
+                            <span class="text-muted">
+                                ¿Aún no eres cliente?
+                                <a href="{{ route('register') }}" class="link-premium ms-1">Solicita tu cuenta</a>
                             </span>
                         </div>
 

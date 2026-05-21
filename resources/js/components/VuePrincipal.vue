@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-4">
+  <div class="modulo-vue container mt-4">
 
     <!-- Navbar del módulo Vue -->
     <nav class="navbar navbar-dark bg-dark rounded mb-4 px-3">
@@ -63,9 +63,10 @@ export default {
 }
 </script>
 
-<style>
-body {
-  background-color: #f8f9fa;
-  font-family: Arial, sans-serif;
+<style scoped>
+.modulo-vue {
+  font-family: Arial, sans-serif; /* La tipografía solo aplicará dentro de este div */
+  min-height: 100vh; /* Asegura que cubra el alto de la pantalla si quieres simular el body */
+  background-color: #f8f9fa; /* El fondo gris claro */
 }
 </style>

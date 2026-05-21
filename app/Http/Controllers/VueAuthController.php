@@ -45,7 +45,7 @@ class VueAuthController extends Controller
     {
         Auth::guard('vue')->logout();
 
-        $request->session()->invalidate();
+        
         $request->session()->regenerateToken();
 
         return redirect()->route('vue.login');
