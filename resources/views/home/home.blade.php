@@ -85,7 +85,7 @@
                             <div class="card card-stat-premium p-4 shadow-sm">
                                 <div class="card-body text-center">
                                     <div class="stat-number mb-2" style="color: #2ec4b6;">{{ $datos['disponibles'] }}</div>
-                                    <p class="stat-label mb-0">Vehiculos Disponibles</p>
+                                    <p class="stat-label mb-0">Mis Vehiculos Disponibles</p>
                                 </div>
                             </div>
                         </div>
