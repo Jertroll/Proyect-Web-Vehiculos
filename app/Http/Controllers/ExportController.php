@@ -119,8 +119,6 @@ class ExportController extends Controller
             exec('explorer.exe "' . $carpeta . '"');
         } else {
             // Lógica para Linux (Mint, Ubuntu, etc.)
-            // En Linux, getenv('HOME') nos da algo como /home/jertroll
-            $carpeta = getenv('HOME') . '/Descargas'; 
             
             // Si el sistema está en inglés, la carpeta podría llamarse 'Downloads'
             if (!file_exists($carpeta)) {
