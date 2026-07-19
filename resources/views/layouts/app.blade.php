@@ -190,6 +190,40 @@
         @yield('content')
     </main>
 
+    {{-- FOOTER --}}
+    @auth
+        @if(in_array(Auth::user()->tipo_usuario, ['vendedor', 'cliente']))
+            <footer class="footer-premium mt-5">
+                <div class="container py-4">
+                    <div class="row gy-3 align-items-center">
+                        <div class="col-md-6 text-center text-md-start">
+                            <h6 class="text-white font-serif mb-1">
+                                {{ config('app.name', 'Proyecto Vehículos') }}
+                            </h6>
+                            <p class="text-white-50 small mb-0">
+                                &copy; {{ date('Y') }} {{ config('app.name', 'Proyecto Vehículos') }}. Todos los derechos reservados.
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <p class="text-white-50 small mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-envelope-fill me-2" viewBox="0 0 16 16" style="color: var(--color-premium-gold);">
+                                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+                                </svg>
+                                contacto: crAutos06@gmail.com
+                            </p>
+                            <p class="text-white-50 small mb-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-telephone-fill me-2" viewBox="0 0 16 16" style="color: var(--color-premium-gold);">
+                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-.71.71c-.74.74-1.842 1.061-2.87.702a18.6 18.6 0 0 1-7.01-6.01C.033 6.87-.288 5.766.452 5.028l.71-.71a1.75 1.75 0 0 1 .723-.435z"/>
+                                </svg>
+                                +506 5566-3223
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        @endif
+    @endauth
+
     {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

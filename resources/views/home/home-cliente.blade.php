@@ -1,3 +1,22 @@
+{{-- Hero Banner foto principal --}}
+<div class="hero-banner-wrapper mb-5">
+    <div class="hero-banner" style="background-image: url('{{ asset('img/hero-banner.png') }}');">
+        <div class="hero-banner-overlay"></div>
+        <div class="hero-banner-content">
+            <span class="hero-eyebrow text-uppercase fw-semibold">Bienvenido a {{ config('app.name', 'Nuestra Empresa') }}</span>
+            <h1 class="hero-title font-serif">
+                Encuentra tu <span style="color: var(--color-premium-gold);">vehículo ideal</span>
+            </h1>
+            <p class="hero-subtitle">
+                Calidad, confianza y las mejores opciones del mercado en un solo lugar.
+            </p>
+            <a href="{{ route('vehiculos.indexCards') }}" class="btn btn-premium btn-lg px-5 text-uppercase fw-bold tracking-wider mt-2">
+                Ver Catálogo
+            </a>
+        </div>
+    </div>
+</div>
+
 {{-- Hero Banner: Bienvenida al cliente --}}
 <div class="card card-welcome-premium shadow-lg mb-5 border-0" style="background: linear-gradient(135deg, var(--color-premium-dark) 0%, #2a2a2a 100%);">
     <div class="card-body p-5 text-center">
@@ -9,43 +28,91 @@
     </div>
 </div>
 
-{{-- Sección: Vehículos Recientes / Destacados --}}
+
+
+{{-- Carrusel: Autos recomendados del día --}}
+@if($destacados->count() > 0)
 <div class="mb-5">
-    <div class="d-flex justify-content-between align-items-end mb-3">
-        <h4 class="font-serif fw-bold mb-0">Recién Llegados</h4>
-        <a href="{{ route('vehiculos.indexCards') }}" class="text-premium-gold text-decoration-none small fw-bold text-uppercase">Ver todos &rarr;</a>
-    </div>
-    <hr class="mt-0 mb-4 opacity-10" style="border-color: var(--color-premium-dark);">
-    
-    <div class="row g-4">
-        @if(isset($datos['vehiculos_recientes']) && count($datos['vehiculos_recientes']) > 0)
-            @foreach($datos['vehiculos_recientes'] as $vehiculo)
-                <div class="col-md-4">
-                    <div class="card vehicle-card shadow-sm h-100">
-                        <div class="vehicle-img-container" style="height: 180px;">
-                            @if($vehiculo->imagenes && $vehiculo->imagenes->count() > 0)
-                                <img src="{{ $vehiculo->imagenes->first()->url_imagen }}" class="vehicle-img" alt="{{ $vehiculo->marca }}">
-                            @else
-                                <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-dark">
-                                    <span class="text-white-50 small">Sin Imagen</span>
+    <h4 class="font-serif fw-bold text-uppercase mb-4" style="letter-spacing: 0.5px;">
+        Autos recomendados del día
+    </h4>
+
+    <div id="carruselRecomendados" class="carousel slide recommended-carousel" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-inner">
+            @foreach($destacados as $index => $vehiculo)
+                <div class="carousel-item @if($index === 0) active @endif">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="card vehicle-card shadow-sm h-100">
+
+                                <div class="vehicle-img-container">
+                                    @if($vehiculo->imagenes && $vehiculo->imagenes->count() > 0)
+                                        @php $primeraImagen = $vehiculo->imagenes->first(); @endphp
+                                        <img src="{{ $primeraImagen->url_imagen }}"
+                                             class="vehicle-img"
+                                             alt="{{ $primeraImagen->descripcion ?? $vehiculo->marca }}">
+                                    @else
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-dark">
+                                            <span class="text-white-50 text-uppercase small tracking-wider">Sin Imagen Disponible</span>
+                                        </div>
+                                    @endif
+                                    <span class="badge-status-disponible">Disponible</span>
                                 </div>
-                            @endif
-                        </div>
-                        <div class="card-body p-3 text-center">
-                            <h6 class="vehicle-title mb-1">{{ $vehiculo->marca }} {{ $vehiculo->modelo }}</h6>
-                            <div class="vehicle-card-price mb-2 fs-5">${{ number_format($vehiculo->precio, 2) }}</div>
-                            <a href="{{ route('vehiculos.show', $vehiculo->id_vehiculo) }}" class="btn btn-outline-dark btn-sm w-100">Ver Detalles</a>
+
+                                <div class="card-body p-4 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h5 class="vehicle-title mb-0 text-truncate me-2">
+                                                {{ $vehiculo->marca }} {{ $vehiculo->modelo }}
+                                            </h5>
+                                            <span class="badge bg-light text-dark border fw-bold">{{ $vehiculo->anio }}</span>
+                                        </div>
+
+                                        <div class="d-flex align-items-center text-muted small mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-geo-alt-fill me-1 text-premium-gold" viewBox="0 0 16 16">
+                                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                            </svg>
+                                            {{ $vehiculo->ubicacion->ciudad ?? 'Ubicación no especificada' }}
+                                        </div>
+
+                                        <div class="vehicle-card-price mb-3">
+                                            ${{ number_format($vehiculo->precio, 2) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <a href="{{ route('vehiculos.show', $vehiculo->id_vehiculo) }}"
+                                           class="btn btn-premium btn-sm text-uppercase fw-bold tracking-wider py-2">
+                                            Ver Detalles
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             @endforeach
-        @else
-            <div class="col-12 text-center py-4 text-muted">
-                <p>Estamos actualizando nuestro inventario. ¡Vuelve pronto!</p>
-            </div>
-        @endif
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carruselRecomendados" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon custom-carousel-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carruselRecomendados" data-bs-slide="next">
+            <span class="carousel-control-next-icon custom-carousel-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+
+        <div class="carousel-indicators position-relative mt-3">
+            @foreach($destacados as $index => $vehiculo)
+                <button type="button" data-bs-target="#carruselRecomendados" data-bs-slide-to="{{ $index }}"
+                        class="custom-carousel-dot @if($index === 0) active @endif"
+                        @if($index === 0) aria-current="true" @endif></button>
+            @endforeach
+        </div>
     </div>
 </div>
+@endif
 
 {{-- Sección: Acerca de Nosotros --}}
 <div class="card shadow-sm border-0 bg-light mt-5">

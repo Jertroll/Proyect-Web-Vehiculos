@@ -67,6 +67,6 @@ export default {
 .modulo-vue {
   font-family: Arial, sans-serif; /* La tipografía solo aplicará dentro de este div */
   min-height: 100vh; /* Asegura que cubra el alto de la pantalla si quieres simular el body */
-  background-color: #f8f9fa; /* El fondo gris claro */
+  background-color: #f8f9fa; 
 }
 </style>

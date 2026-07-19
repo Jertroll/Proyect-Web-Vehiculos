@@ -19,6 +19,7 @@ class HomeController extends Controller
     {
         $usuario = Auth::user();
         $datos   = [];
+        $destacados = collect(); // <- inicializado aquí
 
         if ($usuario->tipo_usuario === 'admin') {
 
@@ -40,8 +41,11 @@ class HomeController extends Controller
             $datos['compras_pagas'] = Compra::where('id_usuario', $usuario->id_usuario)->where('estado', 'pagado')->count();
             $datos['compras_pendientes'] = Compra::where('id_usuario', $usuario->id_usuario) ->where('estado', 'pendiente')->count();
 
+             // Vehículos aleatorios disponibles para el carrusel de recomendados
+            $destacados = Vehiculo::disponibles()->with(['ubicacion', 'imagenes'])->inRandomOrder()->take(5)->get();    
+
         }
 
-        return view('home.home', compact('usuario', 'datos'));
+        return view('home.home', compact('usuario', 'datos', 'destacados'));
     }
 }

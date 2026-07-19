@@ -81,4 +81,9 @@ class Vehiculo extends Model
         $this->estado = 'disponible';
         $this->save();
     }
+
+    public function scopeDisponibles($query)
+    {
+        return $query->where('estado', 'disponible');
+    }   
 }

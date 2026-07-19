@@ -293,3 +293,140 @@ body {
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     padding-top: 0.75rem;
 }
+
+/* Hero Banner styles para archivo home-cliente.blade */
+.hero-banner-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.hero-banner {
+    position: relative;
+    width: 100%;
+    min-height: 60vh;
+    height: 600px;
+    max-height: 80vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.45) 45%,
+        rgba(0, 0, 0, 0.05) 75%
+    );
+}
+
+.hero-banner-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    padding: 0 5%;
+    color: #fff;
+}
+
+.hero-eyebrow {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--color-premium-gold);
+    margin-bottom: 0.5rem;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .hero-banner {
+        height: 450px;
+        min-height: 400px;
+    }
+    .hero-banner-content {
+        max-width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
+
+/*Css del carrucel de autos recomendados en el archivo home-cliente.blade.php*/
+
+/* Carrusel de recomendados */
+.recommended-carousel .carousel-control-prev,
+.recommended-carousel .carousel-control-next {
+    width: 6%;
+    opacity: 0.9;
+}
+
+.custom-carousel-icon {
+    background-color: var(--color-premium-dark);
+    border-radius: 50%;
+    padding: 22px;
+    background-size: 55%;
+}
+
+.carousel-indicators.position-relative {
+    margin: 1rem 0 0 0;
+}
+
+.custom-carousel-dot {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+    background-color: #ccc !important;
+    opacity: 1 !important;
+    margin: 0 5px !important;
+    border: none !important;
+}
+
+.custom-carousel-dot.active {
+    background-color: var(--color-premium-gold) !important;
+}
+
+
+/*Footer y sus diseños en el archivo app/layouts/app.blade.php*/
+
+/* Fix scroll horizontal (por el hero banner full-bleed) */
+html, body {
+    overflow-x: hidden;
+}
+
+/* Sticky footer: empuja el footer al fondo aunque haya poco contenido */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* Footer */
+.footer-premium {
+    background: linear-gradient(135deg, var(--color-premium-dark) 0%, #2a2a2a 100%);
+    flex-shrink: 0;
+}
+
+/*Fin  Footer y sus diseños*/

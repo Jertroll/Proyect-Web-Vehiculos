@@ -101,7 +101,7 @@
 
                 </div> 
 
-            {{-- PORTAL EXCLUSIVO PARA EL CLIENTE --}}
+            {{-- PORTAL EXCLUSIVO PARA EL CLIENTE AQUI--}}
             @else
                 @include('home.home-cliente')
             @endif
